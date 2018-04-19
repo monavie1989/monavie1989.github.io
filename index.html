@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>Quyet WebRTC</title>
-	<script src="js/jquery.js"></script>
-	<script src="js/peer.js"></script>
-	<script type='text/javascript' src='https://webrtcmagingam.herokuapp.com/socket.io/socket.io.js'></script>
-</head>
-<body>
-	<video id="localStream" width="300" controls></video>
-	<br /><br />
-	<video id="remoteStream" width="300" controls></video>
-	<br /><br />		
-	<script>
-	// goi dien len server
-	var socket = io("https://webrtcmagingam.herokuapp.com/");
-	</script>
-	<script src="js/main.js"></script>
-</body>
+    <head>
+        <title>Khoa Pham WebRTC</title>
+        <script src="jquery.js"></script>
+        <script src="peer.js"></script>
+        <script src="socket.io.js"></script>
+    </head>
+    <body>
+        <div id="div-chat">
+            <p>Online user:</p>
+            <ul id="ulUser">
+            </ul>
+            <h3 id="my-peer">Your Id: </h3>
+            <video id="localStream" width="300" controls></video>
+            <br /><br />
+            <video id="remoteStream" width="300" controls></video>
+            <br /><br />
+            <input type="text" id="remoteId" placeholder="Remote ID">
+            <button id="btnCall">Call</button>
+        </div>
+        <div id="div-dang-ky">
+            <br /><br />
+            <input type="text" id="txtUsername" placeholder="Enter your username">
+            <button id="btnSignUp">Sign Up</button>
+        </div>
+    </body>
+    <script src="main.js"></script>
 </html>
