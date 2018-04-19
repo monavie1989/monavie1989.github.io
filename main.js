@@ -1,4 +1,4 @@
-const socket = io('https://stream3005.herokuapp.com/');
+const socket = io('https://webrtcmagingam.herokuapp.com/');
 
 $('#div-chat').hide();
 
