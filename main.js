@@ -1,4 +1,4 @@
-const socket = io('https://stream3005.herokuapp.com/');
+const socket = io('https://webrtcmagingam.herokuapp.com/');
 
 $('#div-chat').hide();
 
@@ -60,7 +60,7 @@ function playStream(idVideoTag, stream) {
 
 const peer = new Peer({ 
     key: 'peerjs', 
-    host: 'mypeer3005.herokuapp.com', 
+    host: 'peerjsmagingam.herokuapp.com', 
     secure: true, 
     port: 443, 
     config: customConfig 
