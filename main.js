@@ -1,7 +1,7 @@
 const socket = io('https://webrtcmagingam.herokuapp.com/');
 
 $('#div-chat').hide();
-
+/*
 let customConfig;
 
 $.ajax({
@@ -21,6 +21,7 @@ $.ajax({
   },
   async: false
 });
+*/
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
@@ -62,8 +63,7 @@ const peer = new Peer({
     key: 'peerjs', 
     host: 'peerjsmagingam.herokuapp.com', 
     secure: true, 
-    port: 443, 
-    config: customConfig 
+    port: 443
 });
 
 peer.on('open', id => {
