@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Quyet WebRTC</title>
-        <script src="js/jquery.js"></script>
-        <script src="js/peer.js"></script>
-		<script type='text/javascript' src='socket.io/socket.io.js'></script>
-    </head>
-    <body>
-        <video id="localStream" width="300" controls></video>
-        <br /><br />
-        <video id="remoteStream" width="300" controls></video>
-        <br /><br />
-		
-		<script>
-		// goi dien len server
-		var socket = io("https://webrtcmagingam.herokuapp.com/");
-		</script>
-    </body>
+<head>
+	<title>Quyet WebRTC</title>
+	<script src="js/jquery.js"></script>
+	<script src="js/peer.js"></script>
+	<script type='text/javascript' src='socket.io/socket.io.js'></script>
+</head>
+<body>
+	<video id="localStream" width="300" controls></video>
+	<br /><br />
+	<video id="remoteStream" width="300" controls></video>
+	<br /><br />		
+	<script>
+	// goi dien len server
+	var socket = io("https://webrtcmagingam.herokuapp.com/");
+	</script>
+</body>
 </html>
