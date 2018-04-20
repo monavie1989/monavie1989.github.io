@@ -1,40 +1,28 @@
 const socket = io('https://webrtcmagingam.herokuapp.com/');
 
-$('#div-chat').hide();
-/*
-let customConfig;
-
-$.ajax({
-  url: "https://service.xirsys.com/ice",
-  data: {
-    ident: "vanpho",
-    secret: "2b1c2dfe-4374-11e7-bd72-5a790223a9ce",
-    domain: "vanpho93.github.io",
-    application: "default",
-    room: "default",
-    secure: 1
-  },
-  success: function (data, status) {
-    // data.d is where the iceServers object lives
-    customConfig = data.d;
-    console.log(customConfig);
-  },
-  async: false
+const peer = new Peer({ 
+    key: 'peerjs', 
+    host: 'peerjsmagingam.herokuapp.com', 
+    secure: true, 
+    port: 443
 });
-*/
+
+peer.on('open', id => {
+    $('#my-peer').append(id);
+	const username = makeid();
+	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
+});
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
-    $('#div-chat').show();
-    $('#div-dang-ky').hide();
-
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
-        $('#ulUser').append(`<li id="${peerId}">${ten}</li>`);
+        $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Id: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+		
     });
 
     socket.on('CO_NGUOI_DUNG_MOI', user => {
         const { ten, peerId } = user;
-        $('#ulUser').append(`<li id="${peerId}">${ten}</li>`);
+        $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Id: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
@@ -59,18 +47,47 @@ function playStream(idVideoTag, stream) {
 // openStream()
 // .then(stream => playStream('localStream', stream));
 
-const peer = new Peer({ 
-    key: 'peerjs', 
-    host: 'peerjsmagingam.herokuapp.com', 
-    secure: true, 
-    port: 443
+
+//Callee
+/*
+peer.on('call', call => {
+    openStream()
+    .then(stream => {
+        call.answer(stream);
+        //playStream('localStream', stream);
+        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+    });
 });
 
-peer.on('open', id => {
-    $('#my-peer').append(id);
-    $('#btnSignUp').click(() => {
-        const username = $('#txtUsername').val();
-        socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
+function call(id, stream){
+	const call = peer.call(id, stream);
+	call.on('stream', remoteStream => playStream('remoteStream'+id, remoteStream));
+}
+
+*/
+
+
+
+
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
+/*
+$('#ulUser').on('click', 'li', function() {
+    const id = $(this).attr('id');
+    console.log(id);
+    openStream()
+    .then(stream => {
+        playStream('localStream', stream);
+        const call = peer.call(id, stream);
+        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
     });
 });
 
@@ -84,24 +101,4 @@ $('#btnCall').click(() => {
         call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
     });
 });
-
-//Callee
-peer.on('call', call => {
-    openStream()
-    .then(stream => {
-        call.answer(stream);
-        playStream('localStream', stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
-    });
-});
-
-$('#ulUser').on('click', 'li', function() {
-    const id = $(this).attr('id');
-    console.log(id);
-    openStream()
-    .then(stream => {
-        playStream('localStream', stream);
-        const call = peer.call(id, stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
-    });
-});
+*/
