@@ -18,6 +18,7 @@ peer.on('open', id => {
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 	console.log("DANH_SACH_ONLINE");
+	console.log(arrUserInfo);
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
 		if(myPeerId != peerId){
