@@ -6,8 +6,9 @@ const peer = new Peer({
     secure: true, 
     port: 443
 });
-
+var myPeerId;
 peer.on('open', id => {
+	myPeerId = id;
     $('#my-peer').append(id);
 	const username = makeid();
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
@@ -16,8 +17,9 @@ peer.on('open', id => {
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
-        $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Id: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
-		
+		if(myPeerId != peerId){
+			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Id: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+		}
     });
 
     socket.on('CO_NGUOI_DUNG_MOI', user => {
@@ -65,9 +67,6 @@ function call(id, stream){
 }
 
 */
-
-
-
 
 function makeid() {
   var text = "";
