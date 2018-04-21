@@ -19,5 +19,23 @@ function playStream(idVideoTag, stream){
 }
 openStream().then(function(stream){
 	playStream('localStream',stream);
+  myStream = stream;
 	console.log(stream);
 });
+peer.on('open', id => {
+	myPeerId = id;
+	const username = makeid();
+    $('#my-peer').append(username);
+	
+	console.log("myPeerId:"+myPeerId);
+	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
+});
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
