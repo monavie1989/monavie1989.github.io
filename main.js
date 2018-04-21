@@ -11,10 +11,13 @@ peer.on('open', id => {
 	myPeerId = id;
 	const username = makeid();
     $('#my-peer').append(username);
+	
+	console.log("myPeerId:"+myPeerId);
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
 });
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
+	console.log("DANH_SACH_ONLINE");
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
 		if(myPeerId != peerId){
