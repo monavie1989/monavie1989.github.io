@@ -9,8 +9,8 @@ const peer = new Peer({
 var myPeerId;
 peer.on('open', id => {
 	myPeerId = id;
-    $('#my-peer').append(id+"-"+username);
 	const username = makeid();
+    $('#my-peer').append(id+"-"+username);
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
 });
 
