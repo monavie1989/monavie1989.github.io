@@ -9,7 +9,7 @@ const peer = new Peer({
 var myPeerId;
 peer.on('open', id => {
 	myPeerId = id;
-    $('#my-peer').append(id);
+    $('#my-peer').append(id+"-"+username);
 	const username = makeid();
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
 });
@@ -18,13 +18,13 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
 		if(myPeerId != peerId){
-			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Id: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Id: ${peerId}-${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
 		}
     });
 
     socket.on('CO_NGUOI_DUNG_MOI', user => {
         const { ten, peerId } = user;
-        $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Id: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+        $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Id: ${peerId}-${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
