@@ -7,6 +7,11 @@ const peer = new Peer({
     port: 443
 });
 var myPeerId;
+var myStream;
+openStream().then(stream => function(){
+	playStream('localStream', stream);
+	myStream = stream;
+});
 peer.on('open', id => {
 	myPeerId = id;
 	const username = makeid();
@@ -21,8 +26,12 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 	console.log(arrUserInfo);
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
-		if(myPeerId != peerId){
+		if(myPeerId != peerId){			
 			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+			
+			const call = peer.call(peerId, myStream);
+			call.on('stream', remoteStream => playStream('remoteStream'+id, remoteStream));
+			
 		}
     });
 
@@ -38,40 +47,20 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 
 socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 
-
+//Callee
+peer.on('call', call => {
+	call.answer(myStream);
+	call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+});
 function openStream() {
     const config = { audio: false, video: true };
     return navigator.mediaDevices.getUserMedia(config);
 }
-
 function playStream(idVideoTag, stream) {
     const video = document.getElementById(idVideoTag);
     video.srcObject = stream;
     video.play();
 }
-
-// openStream()
-// .then(stream => playStream('localStream', stream));
-
-
-//Callee
-/*
-peer.on('call', call => {
-    openStream()
-    .then(stream => {
-        call.answer(stream);
-        //playStream('localStream', stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
-    });
-});
-
-function call(id, stream){
-	const call = peer.call(id, stream);
-	call.on('stream', remoteStream => playStream('remoteStream'+id, remoteStream));
-}
-
-*/
-
 function makeid() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
