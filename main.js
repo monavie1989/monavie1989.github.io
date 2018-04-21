@@ -19,7 +19,7 @@ function playStream(idVideoTag, stream){
 }
 openStream().then(function(stream){
 	playStream('localStream',stream);
-  myStream = stream;
+	myStream = stream;
 	console.log(stream);
 });
 peer.on('open', id => {
@@ -39,7 +39,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
 			
 			const call = peer.call(peerId, myStream);
-			call.on('stream', remoteStream => playStream('remoteStream'+id, remoteStream));
+			call.on('stream', remoteStream => playStream('remoteStream'+peerId, remoteStream));
 			
 		}
     });
@@ -59,6 +59,8 @@ socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 //Callee
 peer.on('call', call => {
 	call.answer(myStream);
+	console.log("peer on call:");
+	console.log(call);
 	call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
 });
 function makeid() {
