@@ -59,9 +59,7 @@ socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 //Callee
 peer.on('call', call => {
 	call.answer(myStream);
-	console.log("peer on call:");
-	console.log(call);
-	call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+	call.on('stream', remoteStream => playStream('remoteStream'+call.remoteId, remoteStream));
 });
 function makeid() {
   var text = "";
