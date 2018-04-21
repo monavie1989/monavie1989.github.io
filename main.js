@@ -8,10 +8,21 @@ const peer = new Peer({
 });
 var myPeerId;
 var myStream;
-openStream().then(stream => function(){
-	playStream('localStream', stream);
-	myStream = stream;
+function openStream(){
+	const config = {audio: false, video: true};
+	return navigator.mediaDevices.getUserMedia(config);
+}
+function playStream(idVideoTag, stream){
+	const video = document.getElementById(idVideoTag);
+	video.srcObject = stream;
+	video.play();
+}
+openStream().then(function(stream){
+	playStream('localStream',stream);
+	console.log(stream);
 });
+
+/*
 peer.on('open', id => {
 	myPeerId = id;
 	const username = makeid();
@@ -52,15 +63,7 @@ peer.on('call', call => {
 	call.answer(myStream);
 	call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
 });
-function openStream() {
-    const config = { audio: false, video: true };
-    return navigator.mediaDevices.getUserMedia(config);
-}
-function playStream(idVideoTag, stream) {
-    const video = document.getElementById(idVideoTag);
-    video.srcObject = stream;
-    video.play();
-}
+*/
 function makeid() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -70,27 +73,3 @@ function makeid() {
 
   return text;
 }
-
-/*
-$('#ulUser').on('click', 'li', function() {
-    const id = $(this).attr('id');
-    console.log(id);
-    openStream()
-    .then(stream => {
-        playStream('localStream', stream);
-        const call = peer.call(id, stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
-    });
-});
-
-//Caller
-$('#btnCall').click(() => {
-    const id = $('#remoteId').val();
-    openStream()
-    .then(stream => {
-        playStream('localStream', stream);
-        const call = peer.call(id, stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
-    });
-});
-*/
