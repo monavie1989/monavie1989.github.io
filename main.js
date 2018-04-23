@@ -38,8 +38,8 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 		if(myPeerId != peerId){			
 			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
 			
-			//const call = peer.call(peerId, myStream);
-			//call.on('stream', remoteStream => playStream('remoteStream'+peerId, remoteStream));
+			const call = peer.call(peerId, myStream);
+			call.on('stream', remoteStream => playStream('remoteStream'+peerId, remoteStream));
 			
 		}
     });
@@ -60,8 +60,8 @@ socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 
 //Callee
 peer.on('call', call => {
-	//call.answer(myStream);
-	//call.on('stream', remoteStream => playStream('remoteStream'+call.remoteId, remoteStream));
+	call.answer(myStream);
+	call.on('stream', remoteStream => playStream('remoteStream'+call.remoteId, remoteStream));
 });
 function makeid() {
   var text = "";
