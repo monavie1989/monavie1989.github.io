@@ -25,26 +25,27 @@ openStream().then(function(stream){
 peer.on('open', id => {
 	myPeerId = id;
 	const username = makeid();
-    $('#my-peer').append(id);
+    $('#my-peer').append(username);
 	
+	console.log("myPeerId:"+myPeerId);
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
 });
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
-	var danhsachuser = "DANH_SACH_ONLINE:";
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
-		danhsachuser = danhsachuser +"\n" + ten;
 		if(myPeerId != peerId){			
-			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${peerId}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
 			
 			const call = peer.call(peerId, myStream);
 			call.on('stream', remoteStream => playStream('remoteStream'+peerId, remoteStream));
 			
 		}
     });
+
     socket.on('CO_NGUOI_DUNG_MOI', user => {
-        //const { ten, peerId } = user;
-        
+        const { ten, peerId } = user;
+        $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+		alert("CO_NGUOI_DUNG_MOI:"+ten);
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
@@ -57,11 +58,7 @@ socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 //Callee
 peer.on('call', call => {
 	call.answer(myStream);
-	const peerId = call.remoteId;
-	printObject(call);
-
-	$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${peerId}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
-	call.on('stream', remoteStream => playStream('remoteStream'+call.remoteId, remoteStream));
+	call.on('stream', remoteStream => playStream('remoteStream'+call.peer, remoteStream));
 });
 function makeid() {
   var text = "";
@@ -72,11 +69,3 @@ function makeid() {
 
   return text;
 }
-function printObject(o) {
-  var out = '';
-  for (var p in o) {
-    out += p + ': ' + o[p] + '\n';
-  }
-  alert(out);
-}
-
