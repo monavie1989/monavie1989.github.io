@@ -56,10 +56,10 @@ socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 
 //Callee
 peer.on('call', call => {
+	call.answer(myStream);
 	const peerId = call.remoteId;
 	alert(peerId);
 	$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${peerId}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
-	call.answer(myStream);
 	call.on('stream', remoteStream => playStream('remoteStream'+call.remoteId, remoteStream));
 });
 function makeid() {
