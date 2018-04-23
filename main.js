@@ -27,7 +27,6 @@ peer.on('open', id => {
 	const username = makeid();
     $('#my-peer').append(id);
 	
-	console.log("myPeerId:"+myPeerId);
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
 });
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
