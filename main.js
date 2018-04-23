@@ -31,18 +31,15 @@ peer.on('open', id => {
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
 });
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
-	console.log("DANH_SACH_ONLINE");
-	console.log(arrUserInfo);
 	var danhsachuser = "DANH_SACH_ONLINE:";
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
 		danhsachuser = danhsachuser +"\n" + ten;
-		if(myPeerId != peerId){
-			
+		if(myPeerId != peerId){			
 			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
 			
-			const call = peer.call(peerId, myStream);
-			call.on('stream', remoteStream => playStream('remoteStream'+peerId, remoteStream));
+			//const call = peer.call(peerId, myStream);
+			//call.on('stream', remoteStream => playStream('remoteStream'+peerId, remoteStream));
 			
 		}
     });
@@ -50,8 +47,8 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 
     socket.on('CO_NGUOI_DUNG_MOI', user => {
         const { ten, peerId } = user;
-		alert("CO_NGUOI_DUNG_MOI:"+ten);
         $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+		alert("CO_NGUOI_DUNG_MOI:"+ten);
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
@@ -63,8 +60,8 @@ socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 
 //Callee
 peer.on('call', call => {
-	call.answer(myStream);
-	call.on('stream', remoteStream => playStream('remoteStream'+call.remoteId, remoteStream));
+	//call.answer(myStream);
+	//call.on('stream', remoteStream => playStream('remoteStream'+call.remoteId, remoteStream));
 });
 function makeid() {
   var text = "";
