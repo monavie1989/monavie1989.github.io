@@ -33,9 +33,12 @@ peer.on('open', id => {
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 	console.log("DANH_SACH_ONLINE");
 	console.log(arrUserInfo);
+	var danhsachuser = "DANH_SACH_ONLINE:";
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
-		if(myPeerId != peerId){			
+		danhsachuser = danhsachuser +"\n" + ten;
+		if(myPeerId != peerId){
+			
 			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
 			
 			const call = peer.call(peerId, myStream);
@@ -43,9 +46,11 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 			
 		}
     });
+	alert(danhsachuser);
 
     socket.on('CO_NGUOI_DUNG_MOI', user => {
         const { ten, peerId } = user;
+		alert("CO_NGUOI_DUNG_MOI:"+ten);
         $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
     });
 
