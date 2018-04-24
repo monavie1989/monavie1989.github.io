@@ -45,7 +45,6 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     socket.on('CO_NGUOI_DUNG_MOI', user => {
         const { ten, peerId } = user;
         $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
-		alert("CO_NGUOI_DUNG_MOI:"+ten);
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
