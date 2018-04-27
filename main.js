@@ -50,7 +50,7 @@ const peer = new Peer({
 });
 
 	console.log("peer open");
-/*
+
 peer.on('open', id => {
 	console.log("peer open");
     $('#my-peer').append(id);
@@ -91,4 +91,4 @@ $('#ulUser').on('click', 'li', function() {
         call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
     });
 });
-*/
+
