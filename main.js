@@ -36,7 +36,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
         const { ten, peerId } = user;
 	    	
 		if(myPeerId != peerId){	
-			$('#online_list').append(`<div id="video-${peerId}"><h3 class="peer-video">User Name: ${peerId}</h3><video id="${peerId}" width="300" controls></video></div>`);
+			$('#online_list').append(`<div id="video-${peerId}"><h3 class="peer-video">User Name: ${peerId}</h3><video id="${peerId}" width="300" autoplay playsinline preload="auto"></video></div>`);
 			
 			const call = peer.call(peerId, myStream);
 			console.log("cal to:"+peerId);
@@ -48,7 +48,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     socket.on('CO_NGUOI_DUNG_MOI', user => {
         const { ten, peerId } = user;
 	    console.log("CO_NGUOI_DUNG_MOI:"+peerId);
-        $('#online_list').append(`<div id="video-${peerId}"><h3 class="peer-video">User Name: ${peerId}</h3><video id="${peerId}" width="300" controls></video></div>`);
+        $('#online_list').append(`<div id="video-${peerId}"><h3 class="peer-video">User Name: ${peerId}</h3><video id="${peerId}" width="300" autoplay playsinline preload="auto"></video></div>`);
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
