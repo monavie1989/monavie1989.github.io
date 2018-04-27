@@ -48,6 +48,7 @@ const peer = new Peer({
 });
 
 
+	console.log("Test");
 peer.on('open', id => {
 	console.log("peer open");
     $('#my-peer').append(id);
