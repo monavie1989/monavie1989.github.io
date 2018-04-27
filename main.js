@@ -33,6 +33,7 @@ peer.on('open', id => {
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
+	    	console.log(myPeerId+"----"+peerId);
 		if(myPeerId != peerId){			
 			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
 			
