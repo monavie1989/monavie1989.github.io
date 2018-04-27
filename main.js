@@ -31,22 +31,25 @@ peer.on('open', id => {
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
 });
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
+	console.log("DANH_SACH_ONLINE:");
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
-	    	console.log(myPeerId+"----"+peerId);
-		if(myPeerId != peerId){			
-			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+	    	
+		if(myPeerId != peerId){	
+			console.log("DANH_SACH_ONLINE:"+peerId);
+			$('#online_list').append(`<div id="video-${peerId}"><h3 class="peer-video">User Name: ${peerId}</h3><video id="${peerId}" width="300" controls></video></div>`);
 			
 			const call = peer.call(peerId, myStream);
 			console.log("cal to:"+peerId);
-			call.on('stream', remoteStream => playStream('remoteStream'+peerId, remoteStream));
+			call.on('stream', remoteStream => playStream(peerId, remoteStream));
 			
 		}
     });
 
     socket.on('CO_NGUOI_DUNG_MOI', user => {
         const { ten, peerId } = user;
-        $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+	    console.log("CO_NGUOI_DUNG_MOI:"+peerId);
+        $('#online_list').append(`<div id="video-${peerId}"><h3 class="peer-video">User Name: ${peerId}</h3><video id="${peerId}" width="300" controls></video></div>`);
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
@@ -59,10 +62,8 @@ socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 //Callee
 peer.on('call', call => {
 	call.answer(myStream);
-	console.log("peer on call");
-	console.log(myStream);
-	console.log('remoteStream'+call.peer);
-	call.on('stream', remoteStream => playStream('remoteStream'+call.peer, remoteStream));
+	console.log("peer on call from"+call.peer);
+	call.on('stream', remoteStream => playStream(call.peer, remoteStream));
 });
 function makeid() {
   var text = "";
