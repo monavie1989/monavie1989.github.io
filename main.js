@@ -49,6 +49,7 @@ const peer = new Peer({
 
 
 peer.on('open', id => {
+	console.log("peer open");
     $('#my-peer').append(id);
     $('#btnSignUp').click(() => {
         const username = $('#txtUsername').val();
