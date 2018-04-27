@@ -2,7 +2,8 @@ const options = {
     key: 'peerjs', 
     host: 'peerjsmagingam.herokuapp.com', 
     secure: true, 
-    port: 443
+    port: 443,
+	debug: true
 };
 console.log(options);
 const peer = new Peer('0123456789', options);
