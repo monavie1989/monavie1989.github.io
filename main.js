@@ -1,5 +1,4 @@
 const socket = io('https://webrtcmagingam.herokuapp.com/');
-var myPeerId;
 
 const peer = new Peer({ 
     key: 'peerjs', 
@@ -7,6 +6,8 @@ const peer = new Peer({
     secure: true, 
     port: 443
 });
+var myPeerId;
+var myStream;
 function openStream(){
 	const config = {audio: false, video: true};
 	return navigator.mediaDevices.getUserMedia(config);
@@ -16,29 +17,26 @@ function playStream(idVideoTag, stream){
 	video.srcObject = stream;
 	video.play();
 }
+openStream().then(function(stream){
+	playStream('localStream',stream);
+	myStream = stream;
+	console.log(stream);
+});
 peer.on('open', id => {
 	myPeerId = id;
 	const username = makeid();
     $('#my-peer').append(username);
 	
-	openStream().then(function(stream){
-		playStream('localStream',stream);
-		window.stream = stream;
-	}).catch(err => {
-        console.error("failed getUserMedia", err);
-    });
-	
+	console.log("myPeerId:"+myPeerId);
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
-	
 });
-
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     arrUserInfo.forEach(user => {
         const { ten, peerId } = user;
 		if(myPeerId != peerId){			
-			$('#online_list').append(`<div id="${peerId}"><h3 class="peer_player">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" autoplay playsinline preload="auto"></video></div>`);
+			$('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
 			
-			const call = peer.call(peerId, window.stream);
+			const call = peer.call(peerId, myStream);
 			call.on('stream', remoteStream => playStream('remoteStream'+peerId, remoteStream));
 			
 		}
@@ -46,7 +44,8 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 
     socket.on('CO_NGUOI_DUNG_MOI', user => {
         const { ten, peerId } = user;
-        $('#online_list').append(`<div id="${peerId}"><h3 class="peer_player">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" autoplay playsinline preload="auto"></video></div>`);
+        $('#online_list').append(`<div id="${peerId}"><h3 id="my-peer">User Name: ${ten}</h3><video id="remoteStream${peerId}" width="300" controls></video></div>`);
+		alert("CO_NGUOI_DUNG_MOI:"+ten);
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
@@ -54,15 +53,13 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     });
 });
 
-//Callee
-peer.on('call', call => {
-	console.log("peer on call");
-	console.log(window.stream);
-	call.answer(window.stream);
-	call.on('stream', remoteStream => playStream('remoteStream'+call.peer, remoteStream));
-});
 socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 
+//Callee
+peer.on('call', call => {
+	call.answer(myStream);
+	call.on('stream', remoteStream => playStream('remoteStream'+call.peer, remoteStream));
+});
 function makeid() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
