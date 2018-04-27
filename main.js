@@ -1,8 +1,6 @@
 const socket = io('https://webrtcmagingam.herokuapp.com/');
-console.log("Test");
 
 $('#div-chat').hide();
-
 
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
@@ -41,7 +39,6 @@ function playStream(idVideoTag, stream) {
 // openStream()
 // .then(stream => playStream('localStream', stream));
 
-	console.log("peer init");
 const peer = new Peer({ 
     key: 'peerjs', 
     host: 'peerjsmagingam.herokuapp.com', 
@@ -49,9 +46,8 @@ const peer = new Peer({
 	debug: true,
     port: 443
 });
-console.log(peer);
+
 peer.on('open', id => {
-	console.log("peer open");
     $('#my-peer').append(id);
     $('#btnSignUp').click(() => {
         const username = $('#txtUsername').val();
