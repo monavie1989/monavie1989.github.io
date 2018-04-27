@@ -32,6 +32,8 @@ peer.on('open', id => {
 	
 	//Callee
 	peer.on('call', call => {
+		console.log("peer on call");
+		console.log(window.stream);
 		call.answer(window.stream);
 		call.on('stream', remoteStream => playStream('remoteStream'+call.peer, remoteStream));
 	});
