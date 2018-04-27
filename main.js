@@ -1,5 +1,6 @@
 const socket = io('https://webrtcmagingam.herokuapp.com/');
-
+console.log("Test");
+/*
 $('#div-chat').hide();
 
 
@@ -48,7 +49,6 @@ const peer = new Peer({
 });
 
 
-	console.log("Test");
 peer.on('open', id => {
 	console.log("peer open");
     $('#my-peer').append(id);
@@ -89,3 +89,4 @@ $('#ulUser').on('click', 'li', function() {
         call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
     });
 });
+*/
