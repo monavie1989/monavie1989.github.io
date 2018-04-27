@@ -52,7 +52,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     });
 
     socket.on('AI_DO_NGAT_KET_NOI', peerId => {
-        $(`video-#${peerId}`).remove();
+        $(`#video-${peerId}`).remove();
     });
 });
 
