@@ -1,16 +1,3 @@
-const options = { 
-    key: 'peerjs', 
-    host: 'peerjsmagingam.herokuapp.com', 
-    secure: true, 
-    port: 443,
-	debug: true
-};
-console.log(options);
-const peer = new Peer('0123456789', options);
-peer.on('open', () => {
-  console.log("open");
-});
-/*
 const socket = io('https://webrtcmagingam.herokuapp.com/');
 console.log("Test");
 
@@ -59,6 +46,7 @@ const peer = new Peer({
     key: 'peerjs', 
     host: 'peerjsmagingam.herokuapp.com', 
     secure: true, 
+	debug: true,
     port: 443
 });
 console.log(peer);
@@ -102,4 +90,3 @@ $('#ulUser').on('click', 'li', function() {
         call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
     });
 });
-*/
