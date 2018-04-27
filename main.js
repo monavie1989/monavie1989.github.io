@@ -25,7 +25,7 @@ openStream().then(function(stream){
 peer.on('open', id => {
 	myPeerId = id;
 	const username = makeid();
-    $('#my-peer').append(username);
+    $('#my-peer').append(myPeerId);
 	
 	console.log("myPeerId:"+myPeerId);
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
