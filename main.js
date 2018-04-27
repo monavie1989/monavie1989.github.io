@@ -30,13 +30,6 @@ peer.on('open', id => {
 	
 	socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
 	
-	//Callee
-	peer.on('call', call => {
-		console.log("peer on call");
-		console.log(window.stream);
-		call.answer(window.stream);
-		call.on('stream', remoteStream => playStream('remoteStream'+call.peer, remoteStream));
-	});
 });
 
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
@@ -61,6 +54,13 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     });
 });
 
+//Callee
+peer.on('call', call => {
+	console.log("peer on call");
+	console.log(window.stream);
+	call.answer(window.stream);
+	call.on('stream', remoteStream => playStream('remoteStream'+call.peer, remoteStream));
+});
 socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 
 function makeid() {
