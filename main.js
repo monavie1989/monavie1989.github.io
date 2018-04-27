@@ -49,8 +49,6 @@ const peer = new Peer({
     port: 443
 });
 
-	console.log("peer open");
-
 peer.on('open', id => {
 	console.log("peer open");
     $('#my-peer').append(id);
