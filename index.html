@@ -3,14 +3,15 @@
     <head>
         <title>Khoa Pham WebRTC</title>
         <script src="jquery.js"></script>
-        <script src="peer.js"></script>
         <script src="socket.io.js"></script>
+		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+        <script src="peer.js"></script>
     </head>
     <body>
         <div id="div-chat">
             <p>Online user:</p>
             <h3 id="my-peer">Your Id: </h3>
-			<video id="localStream" width="300" controls></video>
+			<video id="localStream" width="300" autoplay playsinline preload="auto"></video>
 			<br /><br />
 			<div id="online_list">
 			</div>
