@@ -26,11 +26,13 @@ socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 
 
 function openStream() {
+	console.log("openStream");
     const config = { audio: false, video: true };
     return navigator.mediaDevices.getUserMedia(config);
 }
 
 function playStream(idVideoTag, stream) {
+	console.log("playStream:"+idVideoTag);
     const video = document.getElementById(idVideoTag);
     video.srcObject = stream;
     video.play();
@@ -48,6 +50,8 @@ const peer = new Peer({
 });
 
 peer.on('open', id => {
+	
+	console.log("peer open");
     $('#my-peer').append(id);
     $('#btnSignUp').click(() => {
         const username = $('#txtUsername').val();
@@ -58,6 +62,8 @@ peer.on('open', id => {
 //Caller
 $('#btnCall').click(() => {
     const id = $('#remoteId').val();
+	
+	console.log("call:"+ id);
     openStream()
     .then(stream => {
         playStream('localStream', stream);
@@ -68,6 +74,8 @@ $('#btnCall').click(() => {
 
 //Callee
 peer.on('call', call => {
+	
+	console.log("peer on call");
     openStream()
     .then(stream => {
         call.answer(stream);
