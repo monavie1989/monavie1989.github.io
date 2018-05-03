@@ -4,7 +4,7 @@ var isInitiator;
 
 window.room = prompt("Enter room name:");
 
-var socket = io.connect();
+var socket = io.connect("https://webrtcmagingam.herokuapp.com/");
 
 if (room !== "") {
   console.log('Message from client: Asking to join room ' + room);
