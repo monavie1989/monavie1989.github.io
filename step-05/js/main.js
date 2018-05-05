@@ -20,6 +20,12 @@ var sdpConstraints = {
   offerToReceiveVideo: true
 };
 
+console.log('Getting user media with constraints', sdpConstraints);
+var constraints = {
+  video: true
+};
+
+console.log('Getting user media with constraints', constraints);
 /////////////////////////////////////////////
 
 var room = 'foo';
@@ -33,36 +39,79 @@ if (room !== '') {
   console.log('Attempted to create or  join room', room);
 }
 
+// server alert when new room created
 socket.on('created', function(room) {
   console.log('Created room ' + room);
   isInitiator = true;
 });
 
+// server alert room already full
 socket.on('full', function(room) {
   console.log('Room ' + room + ' is full');
 });
 
+// server alert have new user connect to server (only sent to old user in room)
 socket.on('join', function (room){
   console.log('Another peer made a request to join room ' + room);
   console.log('This peer is the initiator of room ' + room + '!');
   isChannelReady = true;
 });
 
+// server alert have new user joined  room
 socket.on('joined', function(room) {
   console.log('joined: ' + room);
   isChannelReady = true;
 });
 
+// log message from server
 socket.on('log', function(array) {
   console.log.apply(console, array);
 });
 
 ////////////////////////////////////////////////
-
+// send message to server
 function sendMessage(message) {
   console.log('Client sending message: ', message);
   socket.emit('message', message);
 }
+
+
+////////////////////////////////////////////////////
+
+var localVideo = document.querySelector('#localVideo');
+var remoteVideo = document.querySelector('#remoteVideo');
+
+// open camera on local
+navigator.mediaDevices.getUserMedia({
+  audio: false,
+  video: false
+})
+.then(gotStream)
+.catch(function(e) {
+  alert('getUserMedia() error: ' + e.name);
+});
+
+// add video stream camera play on local stream
+function gotStream(stream) {
+  console.log('Adding local stream.');
+  localStream = stream;
+  localVideo.srcObject = stream;
+  // send message to server alert already play local strean
+  sendMessage('got user media');
+  // start call if already have people in room
+  console.log('isInitiator', isInitiator);
+  if (isInitiator) {
+    maybeStart();
+  }
+}
+
+/*
+if (location.hostname !== 'localhost') {
+  requestTurn(
+    'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
+  );
+}
+*/
 
 // This client receives a message
 socket.on('message', function(message) {
@@ -88,42 +137,6 @@ socket.on('message', function(message) {
   }
 });
 
-////////////////////////////////////////////////////
-
-var localVideo = document.querySelector('#localVideo');
-var remoteVideo = document.querySelector('#remoteVideo');
-
-navigator.mediaDevices.getUserMedia({
-  audio: false,
-  video: true
-})
-.then(gotStream)
-.catch(function(e) {
-  alert('getUserMedia() error: ' + e.name);
-});
-
-function gotStream(stream) {
-  console.log('Adding local stream.');
-  localStream = stream;
-  localVideo.srcObject = stream;
-  sendMessage('got user media');
-  if (isInitiator) {
-    maybeStart();
-  }
-}
-
-var constraints = {
-  video: true
-};
-
-console.log('Getting user media with constraints', constraints);
-/*
-if (location.hostname !== 'localhost') {
-  requestTurn(
-    'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
-  );
-}
-*/
 function maybeStart() {
   console.log('>>>>>>> maybeStart() ', isStarted, localStream, isChannelReady);
   if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
