@@ -83,7 +83,7 @@ var remoteVideo = document.querySelector('#remoteVideo');
 
 // open camera on local
 navigator.mediaDevices.getUserMedia({
-  audio: false,
+  audio: true,
   video: false
 })
 .then(gotStream)
