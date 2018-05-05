@@ -20,7 +20,7 @@ var sdpConstraints = {
   offerToReceiveVideo: true
 };
 
-console.log('Getting user media with constraints', sdpConstraints);
+console.log('Getting user media with sdpConstraints', sdpConstraints);
 var constraints = {
   video: true
 };
