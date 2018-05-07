@@ -260,7 +260,7 @@ function hangup() {
 function handleRemoteHangup() {
   console.log('Session terminated.');
   stop();
-  isInitiator = false;
+  //isInitiator = false;
 }
 
 function stop() {
