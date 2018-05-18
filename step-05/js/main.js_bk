@@ -105,12 +105,13 @@ function gotStream(stream) {
   }
 }
 
-
+/*
 if (location.hostname !== 'localhost') {
   requestTurn(
     'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
   );
 }
+*/
 
 // This client receives a message
 socket.on('message', function(message) {
