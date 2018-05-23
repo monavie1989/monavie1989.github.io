@@ -25,20 +25,21 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     console.log("DANH_SACH_ONLINE:");
     console.log(arrUserInfo);
     arrUserInfo.forEach(user => {
-        peers.push = {
-            ten: user.ten, 
-            peer: new Peer({ 
-                key: 'peerjs', 
-                host: 'peerjsmagingam.herokuapp.com', 
-                secure: true, 
-                port: 443, 
-            })
-        };
-        $('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
+        var new_peer = new Peer({ 
+            key: 'peerjs', 
+            host: 'peerjsmagingam.herokuapp.com', 
+            secure: true, 
+            port: 443, 
+        });
+        new_peer.on('open', id => {
+            console.log(id);
+            console.log(user);
+            //$('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
+        });
     });
-    socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username , peer_list: peers});
-    console.log("EMIT NGUOI_DUNG_DANG_KY_SUCCESS");
-    console.log(peers);
+    //socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username , peer_list: peers});
+    //console.log("EMIT NGUOI_DUNG_DANG_KY_SUCCESS");
+    //console.log(peers);
 });
 
 socket.on('NGUOI_DUNG_DANG_KY_SUCCESS', user => {
