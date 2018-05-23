@@ -32,6 +32,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
             port: 443, 
         });
         new_peer.on('open', id => {
+            console.log("open");
             console.log(id);
             console.log(user);
             //$('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
