@@ -1,5 +1,5 @@
 const socket = io('webrtcmagingam.herokuapp.com');
-var peers = {};
+var peers = [];
 //$('#div-chat').hide();
 function openStream() {
     const config = { audio: true, video: false };
@@ -25,16 +25,18 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     console.log("DANH_SACH_ONLINE:");
     console.log(arrUserInfo);
     arrUserInfo.forEach(user => {
-            peers[user.ten] = new Peer({ 
-            key: 'peerjs', 
-            host: 'peerjsmagingam.herokuapp.com', 
-            secure: true, 
-            port: 443, 
-            //config: customConfig 
-        });
+        peers.push = {
+            ten: user.ten, 
+            peer: new Peer({ 
+                key: 'peerjs', 
+                host: 'peerjsmagingam.herokuapp.com', 
+                secure: true, 
+                port: 443, 
+            })
+        };
         $('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
     });
-    socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username , peer_list: peers[user.ten]});
+    //socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username , peer_list: peers[user.ten]});
     console.log("NGUOI_DUNG_DANG_KY_SUCCESS");
     console.log(peers);
 });
