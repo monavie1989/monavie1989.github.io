@@ -34,20 +34,16 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
         });
         $('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
     });
-    console.log(peer_list);
     socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username, peer_list: peer_list });
-    socket.on('NGUOI_DUNG_DANG_KY_SUCCESS', user => {
-        console.log("NGUOI_DUNG_DANG_KY_SUCCESS:");
-        console.log(user);
-        $('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
-    });
-    /*
-    socket.on('AI_DO_NGAT_KET_NOI', peerId => {
-        $(`#${peerId}`).remove();
-    });
-*/
+    console.log("NGUOI_DUNG_DANG_KY_SUCCESS");
+    console.log(peer_list);
 });
 
+socket.on('NGUOI_DUNG_DANG_KY_SUCCESS', user => {
+    console.log("NGUOI_DUNG_DANG_KY_SUCCESS:");
+    console.log(user);
+    $('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
+});
 socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 function makeid() {
   var text = "";
