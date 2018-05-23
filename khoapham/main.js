@@ -39,7 +39,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
             //$('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
         });
     });
-    //socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username , peer_list: peers});
+    socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username });
     //console.log("EMIT NGUOI_DUNG_DANG_KY_SUCCESS");
     //console.log(peers);
 });
