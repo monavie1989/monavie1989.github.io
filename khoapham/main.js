@@ -1,7 +1,20 @@
 const socket = io('webrtcmagingam.herokuapp.com');
+function openStream() {
+    const config = { audio: true, video: false };
+    return navigator.mediaDevices.getUserMedia(config);
+}
 
-$('#div-chat').hide();
+function playStream(idVideoTag, stream) {
+    const video = document.getElementById(idVideoTag);
+    video.srcObject = stream;
+    video.play();
+}
+openStream().then(stream => {
+      playStream('localStream', stream);
+});
+
 /*
+$('#div-chat').hide();
 let customConfig;
 
 $.ajax({
@@ -21,7 +34,6 @@ $.ajax({
   },
   async: false
 });
-*/
 socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     $('#div-chat').show();
     $('#div-dang-ky').hide();
@@ -43,20 +55,38 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
 
 socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 
+*/
 
-function openStream() {
-    const config = { audio: true, video: false };
-    return navigator.mediaDevices.getUserMedia(config);
-}
 
-function playStream(idVideoTag, stream) {
-    const video = document.getElementById(idVideoTag);
-    video.srcObject = stream;
-    video.play();
-}
+
 
 // openStream()
 // .then(stream => playStream('localStream', stream));
+
+
+
+//Caller
+/*
+$('#btnCall').click(() => {
+    const id = $('#remoteId').val();
+    openStream()
+    .then(stream => {
+        playStream('localStream', stream);
+        const call = peer.call(id, stream);
+        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+    });
+});
+
+$('#ulUser').on('click', 'li', function() {
+    const id = $(this).attr('id');
+    console.log(id);
+    openStream()
+    .then(stream => {
+        playStream('localStream', stream);
+        const call = peer.call(id, stream);
+        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+    });
+});
 
 const peer = new Peer({ 
     key: 'peerjs', 
@@ -73,18 +103,6 @@ peer.on('open', id => {
         socket.emit('NGUOI_DUNG_DANG_KY', { ten: username, peerId: id });
     });
 });
-
-//Caller
-$('#btnCall').click(() => {
-    const id = $('#remoteId').val();
-    openStream()
-    .then(stream => {
-        playStream('localStream', stream);
-        const call = peer.call(id, stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
-    });
-});
-
 //Callee
 peer.on('call', call => {
     openStream()
@@ -95,13 +113,12 @@ peer.on('call', call => {
     });
 });
 
-$('#ulUser').on('click', 'li', function() {
-    const id = $(this).attr('id');
-    console.log(id);
-    openStream()
-    .then(stream => {
-        playStream('localStream', stream);
-        const call = peer.call(id, stream);
-        call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
-    });
-});
+function callTo(id){
+  openStream()
+  .then(stream => {
+      playStream('localStream', stream);
+      const call = peer.call(id, stream);
+      call.on('stream', remoteStream => playStream('remoteStream', remoteStream));
+  });
+}
+*/
