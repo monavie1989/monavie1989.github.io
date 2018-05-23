@@ -1,4 +1,6 @@
 const socket = io('webrtcmagingam.herokuapp.com');
+
+$('#div-chat').hide();
 function openStream() {
     const config = { audio: true, video: false };
     return navigator.mediaDevices.getUserMedia(config);
@@ -10,7 +12,10 @@ function playStream(idVideoTag, stream) {
     video.play();
 }
 openStream().then(stream => {
-      playStream('localStream', stream);
+    console.log("openStream:");
+    console.log(stream);
+    window.stream = stream;
+    playStream('localStream', window.stream);
 });
 
 /*
