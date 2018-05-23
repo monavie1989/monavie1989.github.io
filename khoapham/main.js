@@ -31,6 +31,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
             secure: true, 
             port: 443, 
         });
+        console.log(new_peer);
         new_peer.on('open', id => {
             console.log("open");
             console.log(id);
