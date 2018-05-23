@@ -25,7 +25,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     console.log("DANH_SACH_ONLINE:");
     console.log(arrUserInfo);
     arrUserInfo.forEach(user => {
-        var peer_list[user.ten] = new Peer({ 
+            peer_list[user.ten] = new Peer({ 
             key: 'peerjs', 
             host: 'peerjsmagingam.herokuapp.com', 
             secure: true, 
