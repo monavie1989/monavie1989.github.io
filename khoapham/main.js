@@ -1,6 +1,6 @@
 const socket = io('webrtcmagingam.herokuapp.com');
 
-$('#div-chat').hide();
+//$('#div-chat').hide();
 function openStream() {
     const config = { audio: true, video: false };
     return navigator.mediaDevices.getUserMedia(config);
@@ -17,7 +17,19 @@ openStream().then(stream => {
     window.stream = stream;
     playStream('localStream', window.stream);
 });
+const username = makeid();
+$("#username").text(username);
+socket.emit('NGUOI_DUNG_DANG_KY', { ten: username });
 
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
 /*
 $('#div-chat').hide();
 let customConfig;
