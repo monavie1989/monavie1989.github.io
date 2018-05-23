@@ -1,5 +1,5 @@
 const socket = io('webrtcmagingam.herokuapp.com');
-
+var peer_list = {};
 //$('#div-chat').hide();
 function openStream() {
     const config = { audio: true, video: false };
@@ -20,7 +20,35 @@ openStream().then(stream => {
 const username = makeid();
 $("#username").text(username);
 socket.emit('NGUOI_DUNG_DANG_KY', { ten: username });
+console.log("NGUOI_DUNG_DANG_KY:"+username);
+socket.on('DANH_SACH_ONLINE', arrUserInfo => {
+    console.log("DANH_SACH_ONLINE:");
+    console.log(arrUserInfo);
+    arrUserInfo.forEach(user => {
+        var peer_list[user.ten] = new Peer({ 
+            key: 'peerjs', 
+            host: 'peerjsmagingam.herokuapp.com', 
+            secure: true, 
+            port: 443, 
+            //config: customConfig 
+        });
+        $('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
+    });
+    console.log(peer_list);
+    socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username, peer_list: peer_list });
+    socket.on('NGUOI_DUNG_DANG_KY_SUCCESS', user => {
+        console.log("NGUOI_DUNG_DANG_KY_SUCCESS:");
+        console.log(user);
+        $('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
+    });
+    /*
+    socket.on('AI_DO_NGAT_KET_NOI', peerId => {
+        $(`#${peerId}`).remove();
+    });
+*/
+});
 
+socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 function makeid() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
