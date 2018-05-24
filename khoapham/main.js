@@ -25,27 +25,52 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
     console.log("DANH_SACH_ONLINE:");
     console.log(arrUserInfo);
     arrUserInfo.forEach(user => {
-        var new_peer = new Peer({ 
-            key: 'peerjs', 
-            host: 'peerjsmagingam.herokuapp.com', 
-            secure: true, 
-            port: 443, 
-        });
-        console.log(new_peer.id);
-        console.log(user.ten);
-        peers[user.ten] = new_peer.id;
+        var newidconnect = makeidconnect(user.ten, username);
+        const isExist = peers.some(e => e.idconnect === newidconnect);
+        if (!isExist){
+            var new_peer = new Peer({ 
+                key: 'peerjs', 
+                host: 'peerjsmagingam.herokuapp.com', 
+                secure: true, 
+                port: 443, 
+            });        
+            new_peer.on('open', id => {
+                var peer = {idconnect: newidconnect, peerid: id};
+                peers.push(peer);
+                socket.emit('TAO_PEER_MOI',peer);
+                console.log("emit new peer");
+                console.log(peer);
+            });
+            
+            //Callee
+            new_peer.on('call', call => {
+                console.log('new_peer call answer');
+                call.answer(window.stream);
+                $('#ulUser').append(`<li id="${peer.idconnect}">${newidconnect}<br><video width="300" controls id="video_${newidconnect}"></li>`);
+                call.on('stream', remoteStream => playStream(video_${peer.idconnect}, remoteStream));
+            });
+        }        
     });
-    console.log(peers);
-    socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username });
-    //console.log("EMIT NGUOI_DUNG_DANG_KY_SUCCESS");
-    //console.log(peers);
 });
 
-socket.on('NGUOI_DUNG_DANG_KY_SUCCESS', user => {
-    console.log("ON NGUOI_DUNG_DANG_KY_SUCCESS:");
-    console.log(user);
-    $('#ulUser').append(`<li id="${user.ten}">${user.ten}<br><video width="300" controls></video></li>`);
+socket.on('CALL_TO_PEER_MOI', (peer) => {
+    console.log('CALL_TO_PEER_MOI');
+    var new_peer = new Peer({ 
+        key: 'peerjs', 
+        host: 'peerjsmagingam.herokuapp.com', 
+        secure: true, 
+        port: 443, 
+    });        
+    new_peer.on('open', id => {
+        console.log('new_peer open call');
+        var call = new_peer.call(peer.peerid, window.stream);
+        $('#ulUser').append(`<li id="${peer.idconnect}">${peer.idconnect}<br><video width="300" controls id="video_${peer.idconnect}"></li>`);
+        call.on('stream', remoteStream => playStream(video_${peer.idconnect}, remoteStream));
+    });
 });
+
+
+
 socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
 function makeid() {
   var text = "";
@@ -55,6 +80,13 @@ function makeid() {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
 
   return text;
+}
+function makeidconnect(key1, key2){
+    if(key1 < key2){
+        return key1+key2;
+    }else{
+        return key2+key1;
+    }
 }
 /*
 $('#div-chat').hide();
