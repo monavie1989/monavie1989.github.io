@@ -6,7 +6,8 @@ function openStream() {
     return navigator.mediaDevices.getUserMedia(config);
 }
 
-function playStream(idVideoTag, stream) {
+function playStream(id
+    Tag, stream) {
     console.log("playStream");
     console.log(idVideoTag);
     console.log(stream);
@@ -42,7 +43,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
                 console.log("emit new peer");
                 console.log(peer);
             });
-            $('#ulUser').append(`<li id="${newidconnect}">${newidconnect}<br><video width="300" controls id="video_${newidconnect}"></li>`);
+            $('#ulUser').append(`<li id="${newidconnect}">${newidconnect}<br><video width="300" controls playsinline id="video_${newidconnect}"></li>`);
             //Callee
             new_peer.on('call', call => {
                 console.log('new_peer call answer');
@@ -70,7 +71,7 @@ socket.on('CALL_TO_PEER_MOI', (peer) => {
         port: 443, 
     }); 
     console.log(`create element #video_${peer.idconnect}`);
-    $('#ulUser').append(`<li id="${peer.idconnect}">${peer.idconnect}<br><video width="300" controls id="video_${peer.idconnect}"></li>`);
+    $('#ulUser').append(`<li id="${peer.idconnect}">${peer.idconnect}<br><video width="300" controls playsinline id="video_${peer.idconnect}"></li>`);
     new_peer.on('open', id => {
         console.log('new_peer open call');
         var call = new_peer.call(peer.peerid, window.stream);        
