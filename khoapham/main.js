@@ -53,7 +53,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
         }        
     });
 });
-socket.on('AI_DO_NGAT_KET_NOI', {ten, arrConnectionRemove} => {
+socket.on('AI_DO_NGAT_KET_NOI', function(ten, arrConnectionRemove) {
     console.log("AI_DO_NGAT_KET_NOI:"+ten);
     console.log(arrConnectionRemove);
     for (var i = 0; i < arrConnectionRemove.length; i++) {
