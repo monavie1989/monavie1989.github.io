@@ -15,8 +15,6 @@ function playStream(idVideoTag, stream) {
     video.play();
 }
 openStream().then(stream => {
-    console.log("openStream:");
-    console.log(stream);
     window.stream = stream;
     playStream('localStream', window.stream);
 });
@@ -50,7 +48,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
                 console.log('new_peer call answer');
                 call.answer(window.stream);
                 
-                call.on('stream', remoteStream => playStream('video_${peer.idconnect}', remoteStream));
+                call.on('stream', remoteStream => playStream(`video_${peer.idconnect}`, remoteStream));
             });
         }        
     });
@@ -64,13 +62,12 @@ socket.on('CALL_TO_PEER_MOI', (peer) => {
         secure: true, 
         port: 443, 
     }); 
-    console.log("create element #video_${peer.idconnect}");
+    console.log(`create element #video_${peer.idconnect}`);
     $('#ulUser').append(`<li id="${peer.idconnect}">${peer.idconnect}<br><video width="300" controls id="video_${peer.idconnect}"></li>`);
-    console.log($("#ulUser").html());
     new_peer.on('open', id => {
         console.log('new_peer open call');
         var call = new_peer.call(peer.peerid, window.stream);        
-        call.on('stream', remoteStream => playStream('video_${peer.idconnect}', remoteStream));
+        call.on('stream', remoteStream => playStream(`video_${peer.idconnect}`, remoteStream));
     });
 });
 
