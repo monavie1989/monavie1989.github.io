@@ -47,7 +47,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
                 console.log('new_peer call answer');
                 call.answer(window.stream);
                 $('#ulUser').append(`<li id="${peer.idconnect}">${newidconnect}<br><video width="300" controls id="video_${newidconnect}"></li>`);
-                call.on('stream', remoteStream => playStream(video_${peer.idconnect}, remoteStream));
+                call.on('stream', remoteStream => playStream('video_${peer.idconnect}', remoteStream));
             });
         }        
     });
@@ -65,7 +65,7 @@ socket.on('CALL_TO_PEER_MOI', (peer) => {
         console.log('new_peer open call');
         var call = new_peer.call(peer.peerid, window.stream);
         $('#ulUser').append(`<li id="${peer.idconnect}">${peer.idconnect}<br><video width="300" controls id="video_${peer.idconnect}"></li>`);
-        call.on('stream', remoteStream => playStream(video_${peer.idconnect}, remoteStream));
+        call.on('stream', remoteStream => playStream('video_${peer.idconnect}', remoteStream));
     });
 });
 
