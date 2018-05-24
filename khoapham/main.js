@@ -61,7 +61,9 @@ socket.on('CALL_TO_PEER_MOI', (peer) => {
         secure: true, 
         port: 443, 
     }); 
+    console.log("create element #video_${peer.idconnect}");
     $('#ulUser').append(`<li id="${peer.idconnect}">${peer.idconnect}<br><video width="300" controls id="video_${peer.idconnect}"></li>`);
+    console.log($("#video_${peer.idconnect}").html());
     new_peer.on('open', id => {
         console.log('new_peer open call');
         var call = new_peer.call(peer.peerid, window.stream);        
