@@ -6,8 +6,7 @@ function openStream() {
     return navigator.mediaDevices.getUserMedia(config);
 }
 
-function playStream(id
-    Tag, stream) {
+function playStream(idVideoTag, stream) {
     console.log("playStream");
     console.log(idVideoTag);
     console.log(stream);
