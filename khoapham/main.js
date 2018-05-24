@@ -7,6 +7,9 @@ function openStream() {
 }
 
 function playStream(idVideoTag, stream) {
+    console.log("playStream");
+    console.log(idVideoTag);
+    console.log(stream);
     const video = document.getElementById(idVideoTag);
     video.srcObject = stream;
     video.play();
