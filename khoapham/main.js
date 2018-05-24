@@ -31,9 +31,9 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
             secure: true, 
             port: 443, 
         });
-        console.log(new_peer);
-        console.log(user.name);
-        peers[user.name] = new_peer.id;
+        console.log(new_peer.id);
+        console.log(user.ten);
+        peers[user.ten] = new_peer.id;
     });
     console.log(peers);
     socket.emit('NGUOI_DUNG_DANG_KY_SUCCESS', { ten: username });
