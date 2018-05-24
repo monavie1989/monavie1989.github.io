@@ -48,7 +48,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
                 console.log('new_peer call answer');
                 call.answer(window.stream);
                 
-                call.on('stream', remoteStream => playStream(`video_${peer.idconnect}`, remoteStream));
+                call.on('stream', remoteStream => playStream(`video_${newidconnect}`, remoteStream));
             });
         }        
     });
