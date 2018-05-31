@@ -48,7 +48,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
             new_peer.on('call', call => {
                 console.log('new_peer call answer');
                 call.answer(window.stream);
-                $('body').addClass("connected");
+                updateNumberClient();
                 call.on('stream', remoteStream => playStream(`video_${newidconnect}`, remoteStream));
             });
         }        
@@ -60,10 +60,7 @@ socket.on('AI_DO_NGAT_KET_NOI', function(ten, arrConnectionRemove) {
     for (var i = 0; i < arrConnectionRemove.length; i++) {
         $(`#${arrConnectionRemove[i]}`).remove();
     }
-    if($("#ulUser li").length == 0){
-       $('body').removeClass("connected");
-    }
-    
+    updateNumberClient();    
 });
 socket.on('CALL_TO_PEER_MOI', (peer) => {
     console.log('CALL_TO_PEER_MOI');
@@ -80,11 +77,19 @@ socket.on('CALL_TO_PEER_MOI', (peer) => {
         var call = new_peer.call(peer.peerid, window.stream);        
         call.on('stream', function(remoteStream){
             playStream(`video_${peer.idconnect}`, remoteStream);
-            $('body').addClass("connected");
+            updateNumberClient();
         });
     });
 });
-
+function updateNumberClient(){
+    if($("#ulUser li").length == 0){
+        $('body').removeClass("connected");
+        $("#ulUser").attr("class","");
+    }else{
+        $('body').addClass("connected");
+        $("#ulUser").attr("class","connect"+$("#ulUser li").length);
+    }
+}
 
 
 socket.on('DANG_KY_THAT_BAT', () => alert('Vui long chon username khac!'));
