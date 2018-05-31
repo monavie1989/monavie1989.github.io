@@ -9,8 +9,10 @@
     </head>
     <body>
         <div id="div-chat">
-            <p id="username">User:</p>
-            <video id="localStream" width="300" controls playsinline muted></video>
+            <div id="localVideo" class="video_box">
+                <p id="username">User:</p>
+                <video id="localStream" controls playsinline muted></video>
+            </div>
             <ul id="ulUser">
             </ul>
             <!--
@@ -30,4 +32,29 @@
         </div>-->
     </body>
     <script src="main.js"></script>
+    <style>
+        #localVideo{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: red;
+            left: 0;
+            top: 0;
+            transition: width 2s;
+            -webkit-transition: width 2s;
+            border: 2px solid #ddd;
+            box-sizing: border-box;
+        }
+        #localStream {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .connected #localVideo{
+            width: 200px;
+            height: 300px;
+        }
+    </style>
 </html>
