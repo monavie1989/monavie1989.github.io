@@ -78,7 +78,10 @@ socket.on('CALL_TO_PEER_MOI', (peer) => {
     new_peer.on('open', id => {
         console.log('new_peer open call');
         var call = new_peer.call(peer.peerid, window.stream);        
-        call.on('stream', remoteStream => playStream(`video_${peer.idconnect}`, remoteStream));
+        call.on('stream', function(remoteStream){
+            playStream(`video_${peer.idconnect}`, remoteStream);
+            $('body').addClass("connected");
+        });
     });
 });
 
