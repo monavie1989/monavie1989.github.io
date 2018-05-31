@@ -48,7 +48,7 @@ socket.on('DANH_SACH_ONLINE', arrUserInfo => {
             new_peer.on('call', call => {
                 console.log('new_peer call answer');
                 call.answer(window.stream);
-                
+                $('body').addClass("connected");
                 call.on('stream', remoteStream => playStream(`video_${newidconnect}`, remoteStream));
             });
         }        
@@ -59,6 +59,9 @@ socket.on('AI_DO_NGAT_KET_NOI', function(ten, arrConnectionRemove) {
     console.log(arrConnectionRemove);
     for (var i = 0; i < arrConnectionRemove.length; i++) {
         $(`#${arrConnectionRemove[i]}`).remove();
+    }
+    if($("#ulUser li").length == 0){
+       $('body').removeClass("connected");
     }
     
 });
