@@ -66,22 +66,25 @@ socket.on('CALL_TO_PEER_MOI', (peer,ten) => {
     console.log('CALL_TO_PEER_MOI');
     console.log(peer);
     console.log(ten);
-    var new_peer = new Peer({ 
-        key: 'peerjs', 
-        host: 'peerjsmagingam.herokuapp.com', 
-        secure: true, 
-        port: 443, 
-    }); 
-    console.log(`create element #video_${peer.idconnect}`);
-    $('#ulUser').append(`<li id="${peer.idconnect}">${peer.idconnect}<br><video width="300" controls playsinline id="video_${peer.idconnect}"></li>`);
-    new_peer.on('open', id => {
-        console.log('new_peer open call');
-        var call = new_peer.call(peer.peerid, window.stream);        
-        call.on('stream', function(remoteStream){
-            playStream(`video_${peer.idconnect}`, remoteStream);
-            updateNumberClient();
+    var check_idconnect = makeidconnect(ten, username);
+    if(check_idconnect == peer.idconnect){
+        var new_peer = new Peer({ 
+            key: 'peerjs', 
+            host: 'peerjsmagingam.herokuapp.com', 
+            secure: true, 
+            port: 443, 
+        }); 
+        console.log(`create element #video_${peer.idconnect}`);
+        $('#ulUser').append(`<li id="${peer.idconnect}">${peer.idconnect}<br><video width="300" controls playsinline id="video_${peer.idconnect}"></li>`);
+        new_peer.on('open', id => {
+            console.log('new_peer open call');
+            var call = new_peer.call(peer.peerid, window.stream);        
+            call.on('stream', function(remoteStream){
+                playStream(`video_${peer.idconnect}`, remoteStream);
+                updateNumberClient();
+            });
         });
-    });
+    }
 });
 function updateNumberClient(){
     if($("#ulUser li").length == 0){
