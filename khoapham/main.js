@@ -2,8 +2,8 @@ const socket = io('webrtcmagingam.herokuapp.com');
 var peers = [];
 //$('#div-chat').hide();
 function openStream() {
-    const config = { audio: true, video: false };
-    //const config = { audio: false, video: true };
+    //const config = { audio: true, video: false };
+    const config = { audio: true, video: true };
     return navigator.mediaDevices.getUserMedia(config);
 }
 
