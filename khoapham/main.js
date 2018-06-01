@@ -62,8 +62,10 @@ socket.on('AI_DO_NGAT_KET_NOI', function(ten, arrConnectionRemove) {
     }
     updateNumberClient();    
 });
-socket.on('CALL_TO_PEER_MOI', (peer) => {
+socket.on('CALL_TO_PEER_MOI', (peer,ten) => {
     console.log('CALL_TO_PEER_MOI');
+    console.log(peer);
+    console.log(ten);
     var new_peer = new Peer({ 
         key: 'peerjs', 
         host: 'peerjsmagingam.herokuapp.com', 
